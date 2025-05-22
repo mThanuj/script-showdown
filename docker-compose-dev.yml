@@ -1,0 +1,33 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 5173:5173
+    env_file:
+      - ./frontend/.env.dev
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./frontend
+          target: /usr/frontend/dev
+          ignore:
+            - node_modules/
+            - .git/
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    env_file:
+      - ./backend/.env.dev
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./backend
+          target: /usr/backend/dev
+          ignore:
+            - node_modules/
+            - .git/
