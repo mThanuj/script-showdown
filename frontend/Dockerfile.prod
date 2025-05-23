@@ -9,7 +9,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable && corepack prepare pnpm@10.11.0 --activate
 
 # Set working directory
-WORKDIR /frontend
+WORKDIR /usr/frontend/prod
 
 # Copy dependency files
 COPY package.json pnpm-lock.yaml ./
