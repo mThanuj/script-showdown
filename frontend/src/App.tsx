@@ -1,14 +1,22 @@
-import { useEffect } from "react";
-import { useSocketStore } from "./stores/socketStore";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Middleware from "./components/Middleware";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import HomePage from "./pages/HomePage";
 
 const App = () => {
-  const { connect } = useSocketStore();
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
 
-  useEffect(() => {
-    connect();
-  }, [connect]);
-
-  return <div>Apps</div>;
+        <Route element={<Middleware />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 };
 
 export default App;
