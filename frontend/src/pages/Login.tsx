@@ -3,7 +3,7 @@ import { Google } from "@mui/icons-material";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import LoginLogo from "../../public/login.svg";
+import LoginLogo from "/login.svg";
 
 const Login = () => {
   const handleGoogleLogin = () => {
