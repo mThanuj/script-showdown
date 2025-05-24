@@ -3,6 +3,7 @@ import { AuthenticatedRequest } from '../types/authenticatedRequest.type';
 import { AuthenticatedSocket } from '../types/authenticatedSocket.type';
 import { sessionMiddleware } from '../middlewares/session.middleware';
 import passport from 'passport';
+import { Request, Response, NextFunction } from 'express';
 
 const io = new Server({
   cors: {
@@ -12,15 +13,27 @@ const io = new Server({
 });
 
 io.use((socket, next) => {
-  sessionMiddleware(socket.request as any, {} as any, next as any);
+  sessionMiddleware(
+    socket.request as Request,
+    {} as Response,
+    next as NextFunction,
+  );
 });
 
 io.use((socket, next) => {
-  passport.initialize()(socket.request as any, {} as any, next as any);
+  passport.initialize()(
+    socket.request as Request,
+    {} as Response,
+    next as NextFunction,
+  );
 });
 
 io.use((socket, next) => {
-  passport.session()(socket.request as any, {} as any, next as any);
+  passport.session()(
+    socket.request as Request,
+    {} as Response,
+    next as NextFunction,
+  );
 });
 
 io.use((socket, next) => {

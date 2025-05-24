@@ -32,6 +32,12 @@ const Middleware = () => {
     fetchAuthStatus();
   }, []);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      connect();
+    }
+  }, [isAuthenticated, connect]);
+
   if (loading) return <div>Loading...</div>;
 
   if (isAuthenticated && isLoginPage) {
@@ -40,10 +46,6 @@ const Middleware = () => {
 
   if (!isAuthenticated && (isDashboardPage || isGameplayPage) && !isLoginPage) {
     return <Navigate to="/login" replace />;
-  }
-
-  if (isAuthenticated) {
-    connect();
   }
 
   return <Outlet />;
