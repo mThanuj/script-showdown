@@ -7,14 +7,15 @@ const Middleware = () => {
 
   const isLoginPage = path === "/login";
   const isDashboardPage = path === "/dashboard";
+  const isGameplayPage = path === "/gameplay";
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   if (isAuthenticated && isLoginPage) {
     return <Navigate to="/dashboard" />;
   }
 
-  if (!isAuthenticated && isDashboardPage) {
+  if (!isAuthenticated && (isDashboardPage || isGameplayPage)) {
     return <Navigate to="/login" />;
   }
 
