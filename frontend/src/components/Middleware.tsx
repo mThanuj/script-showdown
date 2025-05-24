@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import axiosInstance from "../config/axios.config";
 
 const Middleware = () => {
   const location = useLocation();
@@ -9,14 +10,33 @@ const Middleware = () => {
   const isDashboardPage = path === "/dashboard";
   const isGameplayPage = path === "/gameplay";
 
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAuthStatus = async () => {
+      try {
+        const response = await axiosInstance.get("/auth/me");
+        setIsAuthenticated(response.status !== 401);
+      } catch (error) {
+        setIsAuthenticated(false);
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAuthStatus();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
 
   if (isAuthenticated && isLoginPage) {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/dashboard" replace />;
   }
 
-  if (!isAuthenticated && (isDashboardPage || isGameplayPage)) {
-    return <Navigate to="/login" />;
+  if (!isAuthenticated && (isDashboardPage || isGameplayPage) && !isLoginPage) {
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;

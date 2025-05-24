@@ -2,7 +2,8 @@ import app from './app';
 import config from './config/config';
 import { createServer } from 'node:http';
 import io from './config/socket.config';
-import { prisma } from './config/db';
+import { prisma } from './config/db.config';
+import './config/passport.config';
 
 const httpServer = createServer(app);
 io.attach(httpServer);
