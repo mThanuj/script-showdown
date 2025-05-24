@@ -29,7 +29,7 @@ passport.serializeUser(function (user, done) {
   });
 });
 
-passport.deserializeUser(function (user, done) {
+passport.deserializeUser(function (user: any, done) {
   process.nextTick(function () {
     return done(null, user);
   });
