@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import axiosInstance from "../config/axios.config";
+import { useSocketStore } from "../stores/socketStore";
 
 const Middleware = () => {
   const location = useLocation();
@@ -12,6 +13,8 @@ const Middleware = () => {
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const { connect } = useSocketStore();
 
   useEffect(() => {
     const fetchAuthStatus = async () => {
@@ -37,6 +40,10 @@ const Middleware = () => {
 
   if (!isAuthenticated && (isDashboardPage || isGameplayPage) && !isLoginPage) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (isAuthenticated) {
+    connect();
   }
 
   return <Outlet />;
