@@ -1,4 +1,4 @@
-import { PlayForWork } from "@mui/icons-material";
+import { Code, GolfCourseRounded, SportsGolf } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -24,17 +24,17 @@ const modeVariants = {
 const Dashboard = () => {
   const modes = [
     {
-      icon: PlayForWork,
-      name: "Play Python",
-      description: "1v1 match in Python—test your algorithms live.",
+      icon: Code,
+      name: "Compete in Algorithms",
+      description: "1v1 match in any Language—test your algorithms live.",
     },
     {
-      icon: PlayForWork,
+      icon: GolfCourseRounded,
       name: "Code Golf",
       description: "Compete to solve challenges with minimal code.",
     },
     {
-      icon: PlayForWork,
+      icon: SportsGolf,
       name: "Debug Duel",
       description: "Find bugs fastest in head-to-head competitions.",
     },
@@ -103,7 +103,7 @@ const Dashboard = () => {
                 variants={modeVariants}
                 className="bg-indigo-50 rounded-xl p-4 flex items-start space-x-4 cursor-pointer w-[90%]"
               >
-                <Box className="text-indigo-500">
+                <Box className="text-indigo-500 my-auto">
                   <Icon fontSize="large" />
                 </Box>
                 <Box>
