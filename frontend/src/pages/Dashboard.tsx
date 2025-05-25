@@ -1,4 +1,3 @@
-import { Code, GolfCourseRounded, SportsGolf } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -10,6 +9,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import TypingText from "../components/dashboard/TypingText";
+import { modes } from "../config/constants.config";
 
 const modeVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -22,24 +22,6 @@ const modeVariants = {
 };
 
 const Dashboard = () => {
-  const modes = [
-    {
-      icon: Code,
-      name: "Compete in Algorithms",
-      description: "1v1 match in any Language—test your algorithms live.",
-    },
-    {
-      icon: GolfCourseRounded,
-      name: "Code Golf",
-      description: "Compete to solve challenges with minimal code.",
-    },
-    {
-      icon: SportsGolf,
-      name: "Debug Duel",
-      description: "Find bugs fastest in head-to-head competitions.",
-    },
-  ];
-
   return (
     <Box className="w-screen h-screen bg-gradient-to-tr from-indigo-900 to-white flex items-center justify-center p-6">
       <Paper
@@ -93,7 +75,7 @@ const Dashboard = () => {
             className="flex-grow overflow-y-auto flex items-center justify-center"
             my={2}
           >
-            {modes.map(({ icon: Icon, name, description }, idx) => (
+            {modes.map(({ icon: Icon, name, description, href }, idx) => (
               <motion.div
                 key={name}
                 custom={idx}
@@ -102,6 +84,7 @@ const Dashboard = () => {
                 whileHover="hover"
                 variants={modeVariants}
                 className="bg-indigo-50 rounded-xl p-4 flex items-start space-x-4 cursor-pointer w-[90%]"
+                onClick={() => (window.location.href = href)}
               >
                 <Box className="text-indigo-500 my-auto">
                   <Icon fontSize="large" />
