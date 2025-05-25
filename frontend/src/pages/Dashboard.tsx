@@ -132,7 +132,7 @@ const Dashboard = () => {
               size="large"
               className="py-2 px-6"
             >
-              Start Playing
+              Game History
             </Button>
             <Button
               component={motion.button}
@@ -141,7 +141,7 @@ const Dashboard = () => {
               size="large"
               className="py-2 px-6"
             >
-              Practice Mode
+              Leaderboard
             </Button>
           </ButtonGroup>
         </Box>
