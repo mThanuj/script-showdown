@@ -1,53 +1,94 @@
-import { Button, ButtonGroup } from "@mui/material";
+import { useState } from "react";
+import { Button, ButtonGroup, CircularProgress } from "@mui/material";
 import { motion } from "framer-motion";
 import { colors } from "../../config/constants.config";
 import axiosInstance from "../../config/axios.config";
 
+interface ActionButtonsProps {
+  editorRef: any;
+  selectedLanguageId: number;
+}
+
 const ActionButtons = ({
   editorRef,
   selectedLanguageId,
-}: {
-  editorRef: any;
-  selectedLanguageId: number;
-}) => {
-  const handleRunCode = async () => {
-    const code = editorRef.current.getValue();
-    const response = await axiosInstance.post("/judge0/execute", {
-      source_code: code,
-      language_id: selectedLanguageId,
-    });
+}: ActionButtonsProps) => {
+  const [isRunning, setIsRunning] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    console.log(code, response);
+  const handleRunCode = async () => {
+    setIsRunning(true);
+    try {
+      const code = editorRef.current.getValue();
+      const response = await axiosInstance.post("/judge0/execute", {
+        source_code: code,
+        language_id: selectedLanguageId,
+      });
+      console.log("Run response:", response.data);
+    } catch (err) {
+      console.error("Run error:", err);
+    } finally {
+      setIsRunning(false);
+    }
   };
 
-  const handleSubmit = () => {
-    console.log(editorRef.current.getValue());
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      const code = editorRef.current.getValue();
+      const response = await axiosInstance.post("/judge0/execute", {
+        source_code: code,
+        language_id: selectedLanguageId,
+      });
+      console.log("Submit response:", response.data);
+    } catch (err) {
+      console.error("Submit error:", err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <ButtonGroup
       variant="contained"
-      className="rounded-lg overflow-hidden"
       component={motion.div}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.6 }}
+      sx={{
+        borderRadius: 2,
+        overflow: "hidden",
+        boxShadow: 3,
+      }}
     >
       <Button
         component={motion.button}
-        whileHover={{ scale: 1.05 }}
-        style={{ backgroundColor: colors.green, color: colors.crust }}
+        whileHover={{ scale: isRunning ? 1 : 1.05 }}
         onClick={handleRunCode}
+        disabled={isRunning || isSubmitting}
+        startIcon={isRunning ? <CircularProgress size={20} /> : undefined}
+        sx={{
+          backgroundColor: colors.green,
+          color: colors.crust,
+          px: 4,
+        }}
       >
-        Run Code
+        {isRunning ? "Running..." : "Run Code"}
       </Button>
+
       <Button
         component={motion.button}
-        whileHover={{ scale: 1.05 }}
-        style={{ backgroundColor: colors.peach, color: colors.crust }}
+        whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
         onClick={handleSubmit}
+        disabled={isSubmitting || isRunning}
+        startIcon={isSubmitting ? <CircularProgress size={20} /> : undefined}
+        sx={{
+          backgroundColor: colors.peach,
+          color: colors.crust,
+          px: 4,
+        }}
       >
-        Submit
+        {isSubmitting ? "Submitting..." : "Submit"}
       </Button>
     </ButtonGroup>
   );
