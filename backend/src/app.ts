@@ -1,8 +1,6 @@
 import express from 'express';
-import { errorHandler } from './middlewares/errorHandler';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
-import authRoutes from './routes/auth.routes';
 import cors from 'cors';
 import { sessionMiddleware } from './middlewares/session.middleware';
 
@@ -20,8 +18,10 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/auth', authRoutes);
+import authRoutes from './routes/auth.routes';
+import judge0Routes from './routes/judge0.routes';
 
-app.use(errorHandler);
+app.use('/api/auth', authRoutes);
+app.use('/api/judge0', judge0Routes);
 
 export default app;
