@@ -6,6 +6,7 @@ services:
     restart: always
     ports:
       - 8080:8080
+
   postgres:
     image: postgres
     restart: always
@@ -17,6 +18,7 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+
   frontend:
     depends_on:
       - postgres
@@ -35,6 +37,7 @@ services:
           ignore:
             - node_modules/
             - .git/
+
   backend:
     depends_on:
       - postgres
