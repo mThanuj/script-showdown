@@ -20,3 +20,12 @@ export const modes = [
     href: "/gameplay?mode=3",
   },
 ];
+
+export const colors = {
+  latte: "#eff1f5",
+  crust: "#191c23",
+  peach: "#ffd7a0",
+  blue: "#8aadf4",
+  green: "#a6da95",
+  mauve: "#c6a0f6",
+};

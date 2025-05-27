@@ -1,29 +1,47 @@
 import Editor from "@monaco-editor/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../config/axios.config";
 
-const MonacoEditor = () => {
-  const editorRef = useRef<unknown | null>(null);
+type SnippetMap = { [language: string]: string };
+
+const MonacoEditor = ({
+  editorRef,
+  selectedLanguage,
+}: {
+  editorRef: any;
+  selectedLanguage: string;
+}) => {
+  const [snippets, setSnippets] = useState<SnippetMap>({});
+
+  const snippet = snippets[selectedLanguage] ?? "";
 
   useEffect(() => {
-    console.log(editorRef.current);
-  }, [editorRef]);
+    const fetchSnippets = async () => {
+      try {
+        const {
+          data: { data: fetchedSnippets },
+        } = await axiosInstance.get<{
+          data: SnippetMap;
+        }>("/judge0/snippets");
+
+        setSnippets(fetchedSnippets);
+      } catch (error) {
+        console.error("Error loading snippets:", error);
+      }
+    };
+
+    fetchSnippets();
+  }, []);
 
   return (
     <Editor
       theme="vs-dark"
       height="100%"
-      defaultLanguage="javascript"
-      defaultValue="// some comment"
+      language={selectedLanguage}
+      value={snippet}
       onMount={(editor) => {
         editorRef.current = editor;
         editor.focus();
-
-        editor.onKeyDown((event) => {
-          const { keyCode, ctrlKey, metaKey } = event;
-          if ((keyCode === 33 || keyCode === 52) && (metaKey || ctrlKey)) {
-            event.preventDefault();
-          }
-        });
       }}
       options={{
         cursorStyle: "block",
