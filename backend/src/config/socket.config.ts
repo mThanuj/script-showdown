@@ -45,15 +45,8 @@ io.use((socket, next) => {
   next(new Error('Unauthorized'));
 });
 
-io.on('connection', (socket) => {
-  console.log('a user connected:', {
-    socketId: socket.id,
-    userId: (socket as AuthenticatedSocket).user?.id,
-    username:
-      (socket as AuthenticatedSocket).user?.first_name +
-      ' ' +
-      (socket as AuthenticatedSocket).user?.last_name,
-  });
+io.on('connection', (socket: AuthenticatedSocket) => {
+  console.log('a user connected:', socket.id);
 
   socket.on('disconnect', () => {
     console.log('a user disconnected:', socket.id);

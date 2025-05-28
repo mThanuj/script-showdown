@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -17,6 +17,10 @@ app.use(cookieParser());
 app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.get('/health', (_req: Request, res: Response) => {
+  res.status(200).json({ message: 'Healthy' });
+});
 
 import authRoutes from './routes/auth.routes';
 import judge0Routes from './routes/judge0.routes';

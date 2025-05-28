@@ -6,6 +6,7 @@ dotenv({
 
 interface Config {
   port: number;
+  host: string;
   nodeEnv: string;
   googleClientID: string;
   googleClientSecret: string;
@@ -14,6 +15,7 @@ interface Config {
 
 const config: Config = {
   port: Number(process.env.PORT) || 3000,
+  host: process.env.HOST || 'localhost',
   nodeEnv: process.env.NODE_ENV || 'development',
   googleClientID: process.env.GOOGLE_CLIENT_ID as string,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET as string,

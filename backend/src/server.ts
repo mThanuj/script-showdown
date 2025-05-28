@@ -13,7 +13,7 @@ process.on('SIGINT', async () => {
   process.exit(0);
 });
 
-httpServer.listen(config.port, () => {
+httpServer.listen(config.port, config.host, () => {
   console.log(`Server running on port ${config.port}`);
 
   prisma.$connect().then(() => {

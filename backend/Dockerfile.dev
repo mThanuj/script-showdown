@@ -21,6 +21,8 @@ RUN --mount=type=cache,target=/root/.pnpm-store \
 # Copy application source code
 COPY . .
 
+RUN apk add --no-cache curl
+
 # Copy entrypoint script
 COPY entrypoint.sh /usr/backend/dev/entrypoint.sh
 RUN chmod +x /usr/backend/dev/entrypoint.sh
