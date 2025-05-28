@@ -4,7 +4,7 @@ import { AuthenticatedSocket } from '../types/authenticatedSocket.type';
 import { sessionMiddleware } from '../middlewares/session.middleware';
 import passport from 'passport';
 import { Request, Response, NextFunction } from 'express';
-import { deleteUser, setUser } from '../lib/utils';
+import { createMatch, deleteUser, setUser } from '../lib/utils';
 
 const io = new Server({
   cors: {
@@ -55,8 +55,8 @@ io.on('connection', (socket: AuthenticatedSocket) => {
     socket.user?.id as string,
   );
 
-  socket.on('join-match', ({ userId, mode }) => {
-    console.log({ userId, mode });
+  socket.on('join-match', async ({ userId, mode }) => {
+    await createMatch(userId, mode);
   });
 
   socket.on('disconnect', () => {

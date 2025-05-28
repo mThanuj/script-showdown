@@ -35,7 +35,7 @@ const sectionVariants = {
 
 export default function Gameplay() {
   const { user } = useUserStore();
-  const { connected, emit } = useSocketStore();
+  const { connected, emit, socket } = useSocketStore();
   const query = useQueryParams();
   const modeNumber = query.get("mode");
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -65,7 +65,7 @@ export default function Gameplay() {
   const mode = modes[+modeNumber - 1];
   if (!mode) return <Box />;
 
-  if (connected) {
+  if (connected && user) {
     emit("join-match", { userId: user!.id, mode: modeNumber });
   }
 
