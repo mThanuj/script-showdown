@@ -6,18 +6,24 @@ dotenv({
 
 interface Config {
   port: number;
+  host: string;
   nodeEnv: string;
   googleClientID: string;
   googleClientSecret: string;
   sessionSecret: string;
+  redisHost: string;
+  redisPort: number;
 }
 
 const config: Config = {
   port: Number(process.env.PORT) || 3000,
+  host: process.env.HOST || 'localhost',
   nodeEnv: process.env.NODE_ENV || 'development',
   googleClientID: process.env.GOOGLE_CLIENT_ID as string,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
   sessionSecret: process.env.SESSION_SECRET as string,
+  redisHost: process.env.REDIS_HOST as string,
+  redisPort: Number(process.env.REDIS_PORT) || 6379,
 };
 
 export default config;

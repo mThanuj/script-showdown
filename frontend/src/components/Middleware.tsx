@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import axiosInstance from "../config/axios.config";
 import { useSocketStore } from "../stores/socketStore";
+import { useUserStore } from "../stores/userStore";
 
 const Middleware = () => {
   const location = useLocation();
@@ -15,6 +16,7 @@ const Middleware = () => {
   const [loading, setLoading] = useState(true);
 
   const { connect } = useSocketStore();
+  const { fetchUser } = useUserStore();
 
   useEffect(() => {
     const fetchAuthStatus = async () => {
@@ -35,8 +37,9 @@ const Middleware = () => {
   useEffect(() => {
     if (isAuthenticated) {
       connect();
+      fetchUser();
     }
-  }, [isAuthenticated, connect]);
+  }, [isAuthenticated, connect, fetchUser]);
 
   if (loading) return <div>Loading...</div>;
 
