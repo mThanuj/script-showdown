@@ -15,6 +15,8 @@ import { useEffect, useRef, useState } from "react";
 import ActionButtons from "../components/gameplay/ActionButtons";
 import axiosInstance from "../config/axios.config";
 import type { editor } from "monaco-types";
+import { useSocketStore } from "../stores/socketStore";
+import { useUserStore } from "../stores/userStore";
 
 const MotionBox = motion.create(Box);
 
@@ -32,6 +34,8 @@ const sectionVariants = {
 };
 
 export default function Gameplay() {
+  const { user } = useUserStore();
+  const { connected, emit } = useSocketStore();
   const query = useQueryParams();
   const modeNumber = query.get("mode");
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
@@ -61,6 +65,10 @@ export default function Gameplay() {
   const mode = modes[+modeNumber - 1];
   if (!mode) return <Box />;
 
+  if (connected) {
+    emit("join-match", { userId: user!.id, mode: modeNumber });
+  }
+
   return (
     <Box
       component={motion.div}
@@ -86,7 +94,15 @@ export default function Gameplay() {
             <Typography
               variant="h4"
               gutterBottom
-              sx={{ color: colors.mauve, fontWeight: 700, mb: 2 }}
+              sx={{
+                color: colors.mauve,
+                fontWeight: 700,
+                mb: 2,
+                cursor: "pointer",
+              }}
+              onClick={() =>
+                window.location.replace("http://localhost:5173/dashboard")
+              }
             >
               {mode.name}
             </Typography>

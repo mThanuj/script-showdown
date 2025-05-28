@@ -10,5 +10,14 @@ export function base64Decode(str: string): string {
 
 export async function setUser(id: string, name: string, userId: string) {
   const userData = { name, userId };
-  await redis.set(`id:${id}`, JSON.stringify(userData));
+  await redis.set(`online-users:${id}`, JSON.stringify(userData));
+}
+
+export async function getUser(id: string) {
+  const user = await redis.get(`online-users:${id}`);
+  return user ? JSON.parse(user) : null;
+}
+
+export async function deleteUser(id: string) {
+  await redis.del(`online-users:${id}`);
 }
