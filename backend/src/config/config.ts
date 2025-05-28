@@ -11,6 +11,8 @@ interface Config {
   googleClientID: string;
   googleClientSecret: string;
   sessionSecret: string;
+  redisHost: string;
+  redisPort: number;
 }
 
 const config: Config = {
@@ -20,6 +22,8 @@ const config: Config = {
   googleClientID: process.env.GOOGLE_CLIENT_ID as string,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
   sessionSecret: process.env.SESSION_SECRET as string,
+  redisHost: process.env.REDIS_HOST as string,
+  redisPort: Number(process.env.REDIS_PORT) || 6379,
 };
 
 export default config;
