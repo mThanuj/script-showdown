@@ -21,8 +21,12 @@ RUN --mount=type=cache,target=/root/.pnpm-store \
 # Copy application source code
 COPY . .
 
+# Copy entrypoint script
+COPY entrypoint.sh /usr/backend/dev/entrypoint.sh
+RUN chmod +x /usr/backend/dev/entrypoint.sh
+
 # Expose application port
 EXPOSE 3000
 
 # Start the development server
-CMD ["pnpm", "dev"]
+CMD ["./entrypoint.sh"]
