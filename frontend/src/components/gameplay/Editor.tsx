@@ -1,6 +1,7 @@
 import Editor from "@monaco-editor/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type RefObject } from "react";
 import axiosInstance from "../../config/axios.config";
+import type { editor } from "monaco-types";
 
 type SnippetMap = { [language: string]: string };
 
@@ -8,11 +9,10 @@ const MonacoEditor = ({
   editorRef,
   selectedLanguage,
 }: {
-  editorRef: any;
+  editorRef: RefObject<editor.IStandaloneCodeEditor | null>;
   selectedLanguage: string;
 }) => {
   const [snippets, setSnippets] = useState<SnippetMap>({});
-
   const snippet = snippets[selectedLanguage] ?? "";
 
   useEffect(() => {

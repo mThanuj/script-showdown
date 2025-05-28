@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, type RefObject } from "react";
 import { Button, ButtonGroup, CircularProgress } from "@mui/material";
 import { motion } from "framer-motion";
 import { colors } from "../../config/constants.config";
 import axiosInstance from "../../config/axios.config";
+import type { editor } from "monaco-types";
 
 interface ActionButtonsProps {
-  editorRef: any;
+  editorRef: RefObject<editor.IStandaloneCodeEditor | null>;
   selectedLanguageId: number;
 }
 
@@ -17,6 +18,10 @@ const ActionButtons = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRunCode = async () => {
+    if (!editorRef.current) {
+      return;
+    }
+
     setIsRunning(true);
     try {
       const code = editorRef.current.getValue();
@@ -33,6 +38,10 @@ const ActionButtons = ({
   };
 
   const handleSubmit = async () => {
+    if (!editorRef.current) {
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const code = editorRef.current.getValue();

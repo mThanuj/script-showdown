@@ -14,6 +14,7 @@ import MonacoEditor from "../components/gameplay/Editor";
 import { useEffect, useRef, useState } from "react";
 import ActionButtons from "../components/gameplay/ActionButtons";
 import axiosInstance from "../config/axios.config";
+import type { editor } from "monaco-types";
 
 const MotionBox = motion.create(Box);
 
@@ -33,7 +34,7 @@ const sectionVariants = {
 export default function Gameplay() {
   const query = useQueryParams();
   const modeNumber = query.get("mode");
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
   const [languages, setLanguages] = useState<{ id: number; name: string }[]>(
     [],
