@@ -1,7 +1,8 @@
 services:
   adminer:
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     image: adminer
     restart: always
     ports:
@@ -18,10 +19,16 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
   frontend:
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
@@ -40,7 +47,8 @@ services:
 
   backend:
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
